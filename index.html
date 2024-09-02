@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Card</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Lighting effect for footer text */
+        .footer-text {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Menu Card</h1>
+    </header>
+    <main>
+        <section class="menu-section">
+            <h2>Beverages</h2>
+            <ul>
+                <li>TEA - ₹10</li>
+                <li>Coffee - ₹10</li>
+                <li>COLD DRINK - ₹20 (ANY TYPE)</li>
+            </ul>
+        </section>
+        <section class="menu-section">
+            <h2>Sweets and Snacks</h2>
+            <ul>
+                <li>BISCUIT - ₹10</li>
+                <li>BISCUIT - ₹30</li>
+                <li>BISCUIT - ₹35</li>
+                <li>CAKE - ₹10</li>
+                <li>BOULIE - ₹20</li>
+            </ul>
+        </section>
+        <section class="menu-section">
+            <h2>Main Course</h2>
+            <ul>
+                <li>FRIED RICE AND CHICKEN - ₹75</li>
+                <li>CHOWMIN - ₹30</li>
+                <li>PURI - ₹20</li>
+            </ul>
+        </section>
+        <section class="menu-section">
+            <h2>Others</h2>
+            <ul>
+                <li>LEGS - ₹10; ₹20</li>
+                <li>CUP NUDDLES - ₹50</li>
+                <li>MAGGIE - ₹25</li>
+                <li>SANDWICH - ₹25</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer with lighting effect text -->
+    <footer>
+        <p class="footer-text">Developed by BCA 2nd Year Student Shyamsundar</p>
+    </footer>
+</body>
+</html>
