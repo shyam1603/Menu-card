@@ -1,76 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Card</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Interactive Menu Card with Photo Gallery</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> <!-- Include SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Include jsPDF -->
+
     <style>
-        /* Lighting effect for footer text */
-        .footer-text {
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-top: 50px;
-            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .menu-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .menu-section h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .gallery-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background-color: #333;
             color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
-            animation: glow 1.5s ease-in-out infinite alternate;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff,
+                0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+            animation: glow 5s ease-in-out infinite alternate;
         }
 
         @keyframes glow {
             from {
-                text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
+                text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff00ff,
+                    0 0 25px #ff00ff, 0 0 30px #ff00ff, 0 0 35px #ff00ff;
             }
+
             to {
-                text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff,
+                    0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
             }
+        }
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
+            margin: 0 10px;
+            vertical-align: middle;
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>Menu Card</h1>
+        <h1>Interactive Menu Card</h1>
     </header>
     <main>
+        <!-- Customer Info Section -->
         <section class="menu-section">
+            <h2>Customer Information</h2>
+            <input type="text" id="customerName" placeholder="Enter your name" required>
+            <input type="text" id="tableNumber" placeholder="Enter your table number" required>
+        </section>
+
+        <!-- Ordering Sections -->
+        <section class="menu-section order-section">
             <h2>Beverages</h2>
             <ul>
-                <li>TEA - ₹10</li>
-                <li>Coffee - ₹10</li>
-                <li>COLD DRINK - ₹20 (ANY TYPE)</li>
+                <li>TEA - ₹10 <input type="number" min="0" placeholder="Qty" data-item="TEA" data-price="10"></li>
+                <li>Coffee - ₹10 <input type="number" min="0" placeholder="Qty" data-item="Coffee" data-price="10"></li>
+                <li>COLD DRINK - ₹20 (ANY TYPE) <input type="number" min="0" placeholder="Qty" data-item="COLD DRINK" data-price="20"></li>
             </ul>
         </section>
-        <section class="menu-section">
+        <section class="menu-section order-section">
             <h2>Sweets and Snacks</h2>
             <ul>
-                <li>BISCUIT - ₹10</li>
-                <li>BISCUIT - ₹30</li>
-                <li>BISCUIT - ₹35</li>
-                <li>CAKE - ₹10</li>
-                <li>BOULIE - ₹20</li>
+                <li>BISCUIT - ₹10 <input type="number" min="0" placeholder="Qty" data-item="BISCUIT 10" data-price="10"></li>
+                <li>BISCUIT - ₹30 <input type="number" min="0" placeholder="Qty" data-item="BISCUIT 30" data-price="30"></li>
+                <li>BISCUIT - ₹35 <input type="number" min="0" placeholder="Qty" data-item="BISCUIT 35" data-price="35"></li>
+                <li>CAKE - ₹10 <input type="number" min="0" placeholder="Qty" data-item="CAKE" data-price="10"></li>
+                <li>BOULIE - ₹20 <input type="number" min="0" placeholder="Qty" data-item="BOULIE" data-price="20"></li>
             </ul>
         </section>
-        <section class="menu-section">
+        <section class="menu-section order-section">
             <h2>Main Course</h2>
             <ul>
-                <li>FRIED RICE AND CHICKEN - ₹75</li>
-                <li>CHOWMIN - ₹30</li>
-                <li>PURI - ₹20</li>
+                <li>FRIED RICE AND CHICKEN - ₹75 <input type="number" min="0" placeholder="Qty" data-item="FRIED RICE AND CHICKEN" data-price="75"></li>
+                <li>CHOWMIN - ₹30 <input type="number" min="0" placeholder="Qty" data-item="CHOWMIN" data-price="30"></li>
+                <li>PURI - ₹20 <input type="number" min="0" placeholder="Qty" data-item="PURI" data-price="20"></li>
             </ul>
         </section>
-        <section class="menu-section">
+        <section class="menu-section order-section">
             <h2>Others</h2>
             <ul>
-                <li>LEGS - ₹10; ₹20</li>
-                <li>CUP NUDDLES - ₹50</li>
-                <li>MAGGIE - ₹25</li>
-                <li>SANDWICH - ₹25</li>
+                <li>Chips Packet - ₹10; ₹20 <input type="number" min="0" placeholder="Qty" data-item="LEGS" data-price="10"></li>
+                <li>CUP NOODLES - ₹50 <input type="number" min="0" placeholder="Qty" data-item="CUP NUDDLES" data-price="50"></li>
+                <li>MAGGIE - ₹25 <input type="number" min="0" placeholder="Qty" data-item="MAGGIE" data-price="25"></li>
+                <li>SANDWICH - ₹25 <input type="number" min="0" placeholder="Qty" data-item="SANDWICH" data-price="25"></li>
             </ul>
+        </section>
+
+        <!-- Buttons to Export Data -->
+        <button onclick="exportToExcel()">Export Order Data to Excel</button>
+        <button onclick="exportToPDF()">Export Order Data to PDF</button>
+
+        <!-- Photo Gallery Section -->
+        <section class="gallery-section">
+            <h2>Photo Gallery</h2>
+            <div class="gallery">
+                <img src="back view.jpeg" alt="Gallery Image 1">
+                <img src="front view.jpeg" alt="Gallery Image 2">
+                <img src="photos.jpeg" alt="Gallery Image 3">
+                <img src="abhi.jpeg" alt="Gallery Image 4">
+                <img src="show.jpeg" alt="Gallery Image 5">
+                <img src="friends.jpeg" alt="Gallery Image 6">
+            </div>
         </section>
     </main>
 
-    <!-- Footer with lighting effect text -->
+    <!-- Footer with social links -->
     <footer>
-        <p class="footer-text">Developed by BCA 2nd Year Student Shyamsundar</p>
+        <p class="footer-text">Developed by BCA 2nd Year Student Shyamsundar Dandapat</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/shyam-sundar-dandapat-1941a7259/" target="_blank">
+                <img src="linkdin logo.webp" alt="LinkedIn Logo">
+            </a>
+            <a href="https://www.instagram.com/abhidandapat_?igsh=MXA2dGlqZXAxand2Yg==" target="_blank">
+                <img src="instagram logo.avif" alt="Instagram Logo">
+            </a>
+        </div>
     </footer>
+
+    <!-- JavaScript for Exporting Data -->
+    <script>
+        function exportToExcel() {
+            const customerName = document.getElementById('customerName').value;
+            const tableNumber = document.getElementById('tableNumber').value;
+
+            if (!customerName || !tableNumber) {
+                alert('Please enter your name and table number!');
+                return;
+            }
+
+            const data = [];
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                const quantity = input.value;
+                if (quantity > 0) {
+                    const item = input.getAttribute('data-item');
+                    const price = input.getAttribute('data-price');
+                    const total = quantity * price;
+                    data.push({ Name: customerName, Table: tableNumber, Item: item, Quantity: quantity, Price: price, Total: total });
+                }
+            });
+
+            if (data.length === 0) {
+                alert('No items ordered!');
+                return;
+            }
+
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
+
+            XLSX.writeFile(workbook, 'Orders.xlsx');
+        }
+
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const customerName = document.getElementById('customerName').value;
+            const tableNumber = document.getElementById('tableNumber').value;
+
+            if (!customerName || !tableNumber) {
+                alert('Please enter your name and table number!');
+                return;
+            }
+
+            const data = [];
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                const quantity = input.value;
+                if (quantity > 0) {
+                    const item = input.getAttribute('data-item');
+                    const price = input.getAttribute('data-price');
+                    const total = quantity * price;
+                    data.push({ Item: item, Quantity: quantity, Price: price, Total: total });
+                }
+            });
+
+            if (data.length === 0) {
+                alert('No items ordered!');
+                return;
+            }
+
+            doc.setFontSize(12);
+            doc.text(`Customer Name: ${customerName}`, 10, 10);
+            doc.text(`Table Number: ${tableNumber}`, 10, 20);
+            doc.text('Order Details:', 10, 30);
+
+            let y = 40;
+            data.forEach(item => {
+                doc.text(`${item.Item} - Qty: ${item.Quantity}, Price: ₹${item.Price}, Total: ₹${item.Total}`, 10, y);
+                y += 10;
+            });
+
+            // Add Footer with social media links
+            const footerText = "Developed by BCA 2nd Year Student Shyamsundar Dandapat";
+            doc.text(footerText, 10, y + 10);
+
+            // Add social media logos
+            const linkedinLogo = 'linkedin-logo.png';
+            const instagramLogo = 'instagram-logo.png';
+
+            // Add LinkedIn logo
+            doc.addImage(linkedinLogo, 'PNG', 10, y + 20, 30, 30);
+            doc.text("LinkedIn", 50, y + 40);
+
+            // Add Instagram logo
+            doc.addImage(instagramLogo, 'PNG', 10, y + 50, 30, 30);
+            doc.text("Instagram", 50, y + 70);
+
+            doc.save('OrderDetails.pdf');
+        }
+    </script>
 </body>
+
 </html>
