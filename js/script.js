@@ -57,7 +57,7 @@ async function exportToPDF() {
                 const item = input.getAttribute('data-item');
                 const price = parseFloat(input.getAttribute('data-price'));
                 const total = quantity * price;
-                data.push({ Item: item, Quantity: quantity, Price: price.toFixed(2), Total: total.toFixed(2) });
+                data.push({ Item: item, Quantity: quantity, Price: `₹${price.toFixed(2)}`, Total: `₹${total.toFixed(2)}` });
             }
         });
 
@@ -73,37 +73,9 @@ async function exportToPDF() {
 
         let y = 40;
         data.forEach(item => {
-            doc.text(`${item.Item} - Qty: ${item.Quantity}, Price: ₹${item.Price}, Total: ₹${item.Total}`, 10, y);
+            doc.text(`${item.Item} - Qty: ${item.Quantity}, Price: ${item.Price}, Total: ${item.Total}`, 10, y);
             y += 10;
         });
-
-        // Add Footer with social media links
-        const footerText = "Developed by BCA 2nd Year Student Shyamsundar Dandapat";
-        doc.text(footerText, 10, y + 10);
-
-        // Add social media logos
-        const linkedinLogo = 'linkedin-logo.png';
-        const instagramLogo = 'instagram-logo.png';
-
-        // Add LinkedIn logo
-        try {
-            const linkedinImage = await loadImage(linkedinLogo);
-            doc.addImage(linkedinImage, 'PNG', 10, y + 20, 30, 30);
-            doc.text("LinkedIn", 50, y + 40);
-        } catch (error) {
-            console.error("Error loading LinkedIn logo:", error);
-            doc.text("LinkedIn Logo Missing", 10, y + 20);
-        }
-
-        // Add Instagram logo
-        try {
-            const instagramImage = await loadImage(instagramLogo);
-            doc.addImage(instagramImage, 'PNG', 10, y + 50, 30, 30);
-            doc.text("Instagram", 50, y + 70);
-        } catch (error) {
-            console.error("Error loading Instagram logo:", error);
-            doc.text("Instagram Logo Missing", 10, y + 50);
-        }
 
         doc.save('OrderDetails.pdf');
     } catch (error) {
@@ -111,6 +83,7 @@ async function exportToPDF() {
         alert("There was an error exporting the data to PDF.");
     }
 }
+
 
 // Helper function to load images asynchronously
 function loadImage(src) {
